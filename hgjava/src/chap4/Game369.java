@@ -37,7 +37,10 @@ public class Game369 {
 			// 입력숫자 < com -> up 하세요
 		
 		
-		
+		// for... 추가되었음.....
+		for(int i=0;i<10;i++) {
+			System.out.println("hhhhhh");
+		}
 
 	}// end main
 
