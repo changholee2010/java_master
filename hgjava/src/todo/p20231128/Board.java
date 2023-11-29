@@ -6,6 +6,8 @@ public class Board {
 	private String writer;
 	private String content;
 	private String writeDate;
+	
+	// 이 부분이 변경되었습니다.
 
 	public Board(int boardNo, String title, String writer, String content, String writeDate) {
 
