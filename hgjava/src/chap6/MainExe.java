@@ -2,25 +2,25 @@ package chap6;
 
 public class MainExe {
 	public static void main(String[] args) {
-		Member[] members = new Member[5];
-		members[0] = new Member(4, "Hong1", "010-1111", "Men");
-		members[1] = new Member(2, "Hong2", "010-2222", "Men");
-		members[2] = new Member(1, "Hong3", "010-3333", "Men");
-		members[3] = new Member(3, "Hong4", "010-4444", "Men");
-		members[4] = new Member(5, "Hong5", "010-5555", "Men");
 
-		Member temp = members[0];
-		for (int i = 0; i < members.length - 1; i++) {
-			for (int j = 0; j < members.length - 1; j++) {
-				if (members[j].getMemberNo() > members[j + 1].getMemberNo()) {
-					temp = members[j];
-					members[j] = members[j + 1];
-					members[j + 1] = temp;
-				}
+		String[] strs = { "1.adk", "2.dfsl", "3.dfsl", "4.dfsk", "5.dfksd", "6.sdjkfls", "7.dkls", "8.dfkls" };
+		int page = 1;
+		int start = (page - 1) * 5;
+		int end = page * 5;
+
+		for (int i = 0; i < strs.length; i++) {
+			if (i >= start && i < end) {
+				System.out.println(strs[i]);
 			}
 		}
-		for (Member member : members) {
-			System.out.println(member.showAllInfo());
+
+		int cnt = 36;
+
+		int totalPage = (int) Math.ceil(cnt / 5.0);
+		System.out.println(totalPage);
+
+		for (int i = 1; i <= totalPage; i++) {
+			System.out.print(i + " ");
 		}
 	}
 }
