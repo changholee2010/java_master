@@ -12,10 +12,15 @@ public class MainExe {
 		Member temp = members[0];
 		for (int i = 0; i < members.length - 1; i++) {
 			for (int j = 0; j < members.length - 1; j++) {
-				if (members[j].getMemberNo() > temp.getMemberNo()) {
-
+				if (members[j].getMemberNo() > members[j + 1].getMemberNo()) {
+					temp = members[j];
+					members[j] = members[j + 1];
+					members[j + 1] = temp;
 				}
 			}
+		}
+		for (Member member : members) {
+			System.out.println(member.showAllInfo());
 		}
 	}
 }
