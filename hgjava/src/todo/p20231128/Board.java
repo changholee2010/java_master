@@ -7,6 +7,9 @@ public class Board {
 	private String content;
 	private String writeDate;
 
+	// 나도 변경햇습니다..
+
+	
 	public Board(int boardNo, String title, String writer, String content, String writeDate) {
 
 		this.boardNo = boardNo;
