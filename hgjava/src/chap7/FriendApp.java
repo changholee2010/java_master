@@ -5,6 +5,7 @@ import java.util.Scanner;
 public class FriendApp {
 	static Scanner scn = new Scanner(System.in);
 	// static Friend[] storage = new Friend[10];
+	static FriendExe exe = new FriendExe();
 
 	public static void main(String[] args) {
 		boolean run = true;
@@ -60,18 +61,16 @@ public class FriendApp {
 			friend = new CompFriend(name, phone, comp, dept);
 		}
 		// 배열에 추가.
-		for (int i = 0; i < storage.length; i++) {
-			if (storage[i] == null) {
-				storage[i] = friend;
-				break;
-			}
+		if (exe.addFriend(friend)) {
+			System.out.println("저장완료!");
+		} else {
+			System.out.println("처리실패!");
 		}
-		System.out.println("저장완료!!");
 
 	} // 등록.
 
 	private static void friendList() {
-		for (Friend fnd : storage) {
+		for (Friend fnd : exe.friendList()) {
 			if (fnd != null) {
 				System.out.println(fnd.showInfo());
 			}
@@ -85,17 +84,19 @@ public class FriendApp {
 		String searchCond = "";
 		if (subMenu == 1) {
 			searchCond = scn.nextLine();
-			for (Friend fnd : storage) {
+			Friend[] list = exe.searchFriend(searchCond);
+			for (Friend fnd : list) {
 				if (fnd != null && fnd.getName().equals(searchCond)) {
 					System.out.println(fnd.showInfo());
 				}
 			}
 		} else if (subMenu == 2) {
 			searchCond = scn.nextLine();
-			for (Friend fnd : storage) {
-				if (fnd != null && fnd.getPhone().equals(searchCond)) {
-					System.out.println(fnd.showInfo());
-				}
+			Friend fnd = exe.searchPhone(searchCond);
+			if (fnd != null) {
+				System.out.println(fnd.showInfo());
+			} else {
+				System.out.println("결과없음.");
 			}
 		} else {
 			System.out.println("1 또는 2 선택하세요.");
