@@ -2,7 +2,7 @@ package remind6;
 
 public class Student {
 	// 필드정의.
-	private String studentNumber;
+	private String studentNumber; // student_number
 	private String studentName;
 	private int englishScore;
 	private int mathmaticScore;
