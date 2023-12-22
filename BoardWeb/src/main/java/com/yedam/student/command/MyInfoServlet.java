@@ -9,7 +9,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.yedam.student.mapper.StudentDAO;
+import com.yedam.student.service.StudentService;
+import com.yedam.student.serviceImpl.StudentServiceImpl;
+import com.yedam.student.serviceImpl.StudentServiceMybatis;
 import com.yedam.student.vo.Student;
 
 @WebServlet("/MyInfoServlet")
@@ -37,17 +39,17 @@ public class MyInfoServlet extends HttpServlet {
 
 		// db 저장.
 		Student std = new Student(sno, sname, Integer.parseInt(escore), Integer.parseInt(mscore));
-		StudentDAO dao = new StudentDAO();
+		StudentService dao = new StudentServiceMybatis();
 		boolean done = dao.addStudent(std);
-		
+
 		PrintWriter out = response.getWriter();
 		// out.append("Served at: ").append(request.getContextPath());
 		out.println("<h3>Welcome Servlet , 안녕...</h3>");
 		out.println("<a href='index.html'>인덱스 이동</a>");
-		
-		if(done) {
+
+		if (done) {
 			out.println("<script>alert('OK'); location.href='student/studentList.jsp'; </script>");
-		}else {
+		} else {
 			out.println("<script>alert('Fail'); location.href='index.html'; </script>");
 		}
 	}
