@@ -1,4 +1,4 @@
-package common;
+package com.yedam.student.vo;
 
 public class Student {
 	// 필드정의.
@@ -8,7 +8,7 @@ public class Student {
 	private int mathmaticScore;
 
 	// 생성자정의.
-	Student() {
+	public Student() {
 	}
 
 	public Student(String studentNumber, String studentName, int englishScore, int mathmaticScore) {

@@ -1,4 +1,4 @@
-package common;
+package com.yedam.student.command;
 
 import java.io.IOException;
 
@@ -7,6 +7,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.yedam.student.mapper.StudentDAO;
+import com.yedam.student.vo.Student;
 
 @WebServlet("/getStudentServlet")
 public class GetStudentServlet extends HttpServlet {
