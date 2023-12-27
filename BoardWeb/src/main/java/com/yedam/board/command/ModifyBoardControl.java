@@ -2,8 +2,6 @@ package com.yedam.board.command;
 
 import java.io.IOException;
 
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -12,24 +10,25 @@ import com.yedam.board.serviceImpl.BoardServiceMybatis;
 import com.yedam.board.vo.BoardVO;
 import com.yedam.common.Control;
 
-public class GetBoardControl implements Control {
+public class ModifyBoardControl implements Control {
 
 	@Override
 	public void execute(HttpServletRequest req, HttpServletResponse resp) {
-		// 글번호 조회.
+		// TODO Auto-generated method stub
 		String bno = req.getParameter("bno");
+		String content = req.getParameter("content");
+		BoardVO vo = new BoardVO();
+		vo.setBoardNo(Integer.parseInt(bno));
+		vo.setContent(content);
 
 		BoardService svc = new BoardServiceMybatis();
-		BoardVO vo = svc.getBoard(Integer.parseInt(bno));
-
-		req.setAttribute("vo", vo);
-
-		// 페이지 이동(forward)
-		RequestDispatcher rd = //
-				req.getRequestDispatcher("WEB-INF/board/getBoard.jsp");
 		try {
-			rd.forward(req, resp);
-		} catch (ServletException | IOException e) {
+			if (svc.modBoard(vo)) {
+				resp.sendRedirect("boardList.do");
+			} else {
+				resp.sendRedirect("boardForm.do");
+			}
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
