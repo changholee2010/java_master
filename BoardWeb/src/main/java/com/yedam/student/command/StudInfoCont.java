@@ -1,25 +1,20 @@
-package com.yedam.board.command;
+package com.yedam.student.command;
 
 import java.io.IOException;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.yedam.common.Control;
 
-public class BoardFormControl implements Control {
+public class StudInfoCont implements Control {
 
 	@Override
 	public void execute(HttpServletRequest req, HttpServletResponse resp) {
-		// 등록화면 open.
-
-		// 페이지 이동(forward)
-		RequestDispatcher rd = //
-				req.getRequestDispatcher("board/addBoardForm.tiles");
+		// TODO Auto-generated method stub
 		try {
-			rd.forward(req, resp);
+			req.getRequestDispatcher("student/studentInfo.tiles").forward(req, resp);
 		} catch (ServletException | IOException e) {
 			e.printStackTrace();
 		}
