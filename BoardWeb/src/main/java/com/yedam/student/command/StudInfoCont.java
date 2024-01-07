@@ -18,6 +18,7 @@ public class StudInfoCont implements Control {
 		} catch (ServletException | IOException e) {
 			e.printStackTrace();
 		}
+
 	}
 
 }
