@@ -119,7 +119,7 @@
         let reply = result.vo;
         let li = makeLi(reply);
         ul.appendChild(li); // 
-        
+
         document.querySelector('#content').value = '';
 
       } else if (result.retCode == 'NG') {
