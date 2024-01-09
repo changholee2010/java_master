@@ -14,23 +14,25 @@
 </style>
 
 <style>
-.pagination {
-  display: inline-block;
-}
+  .pagination {
+    display: inline-block;
+  }
 
-.pagination a {
-  color: black;
-  float: left;
-  padding: 8px 16px;
-  text-decoration: none;
-}
+  .pagination a {
+    color: black;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+  }
 
-.pagination a.active {
-  background-color: #4CAF50;
-  color: white;
-}
+  .pagination a.active {
+    background-color: #4CAF50;
+    color: white;
+  }
 
-.pagination a:hover:not(.active) {background-color: #ddd;}
+  .pagination a:hover:not(.active) {
+    background-color: #ddd;
+  }
 </style>
 
 <jsp:include page="../layout/menu.jsp"></jsp:include>
@@ -119,29 +121,43 @@
 
   // 페이지 클릭하면 페이지의 데이터 보여주도록.
   let pageInfo = 1;
+
   function pageList(e) {
     e.preventDefault();
     pageInfo = this.getAttribute("href");
     showList(pageInfo);
 
     // 페이지를 생성하는 함수를 호출.
-	pagingList(pageInfo);
+    pagingList(pageInfo);
   }
 
   // Ajax호출.
-  function showList(page) {
-	  ul.innerHTML = '';
-	  const xhtp = new XMLHttpRequest();
-	  xhtp.open('get', 'replyListJson.do?bno=' + bno + "&page=" + page)
-	  xhtp.send()
-	  xhtp.onload = function () {
-	    let data = JSON.parse(xhtp.responseText); //json문자열 -> 객체.
-	    data.forEach(reply => {
-	      let li = makeLi(reply);
-	      ul.appendChild(li);
-	    })
-	  }	  
+  function showList_backup(page) {
+    ul.innerHTML = '';
+    const xhtp = new XMLHttpRequest();
+    xhtp.open('get', 'replyListJson.do?bno=' + bno + "&page=" + page)
+    xhtp.send()
+    xhtp.onload = function () {
+      let data = JSON.parse(xhtp.responseText); //json문자열 -> 객체.
+      data.forEach(reply => {
+        let li = makeLi(reply);
+        ul.appendChild(li);
+      })
+    }
   } //
+  function showList(page) {
+    ul.innerHTML = '';
+    fetch("replyListJson.do?bno=" + bno + "&page=" + page)
+      .then(str => str.json())
+      .then(result => {
+        result.forEach(reply => {
+          let li = makeLi(reply);
+          ul.appendChild(li);
+        })
+      })
+      .catch(reject => console.log(reject));
+
+  }
   showList(pageInfo);
 
   // 페이지 생성.
@@ -169,7 +185,7 @@
       for (let p = result.startPage; p <= result.lastPage; p++) {
         let aTag = document.createElement('a');
         if (p == page) {
-        	aTag.setAttribute('class', 'active');
+          aTag.setAttribute('class', 'active');
         }
         aTag.href = p;
         aTag.innerText = p;
@@ -194,26 +210,46 @@
     let reply = document.querySelector('#content').value;
     let replyer = '${logId}';
 
-    const addAjax = new XMLHttpRequest();
-    addAjax.open('get', 'addReplyJson.do?reply=' + reply + '&replyer=' + replyer + '&bno=' + bno);
-    addAjax.send();
-    addAjax.onload = function () {
-      let result = JSON.parse(addAjax.responseText);
-      if (result.retCode == 'OK') {
-        //let reply = result.vo;
-        //let li = makeLi(reply);
-        //ul.appendChild(li); //
-        alert('처리성공.')
-        pageInfo = 1;
-        showList(pageInfo);
-        pagingList();
+    // fetch함수.
+    fetch('addReplyJson.do', {
+        method: 'post',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: 'reply=' + reply + '&replyer=' + replyer + '&bno=' + bno
+      })
+      .then(str => str.json())
+      .then(result => {
+        if (result.retCode == 'OK') {
+          alert('처리성공.')
+          pageInfo = 1;
+          showList(pageInfo);
+          pagingList();
+          document.querySelector('#content').value = '';
+        } else if (result.retCode == 'NG') {
+          alert('처리중 에러')
+        }
+      })
+      .catch(err => console.error(err));
 
-        document.querySelector('#content').value = '';
+    // const addAjax = new XMLHttpRequest();
+    // addAjax.open('post', 'addReplyJson.do');
+    // addAjax.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
+    // addAjax.send('reply=' + reply + '&replyer=' + replyer + '&bno=' + bno);
+    // addAjax.onload = function () {
+    //   let result = JSON.parse(addAjax.responseText);
+    //   if (result.retCode == 'OK') {
+    //     alert('처리성공.')
+    //     pageInfo = 1;
+    //     showList(pageInfo);
+    //     pagingList();
 
-      } else if (result.retCode == 'NG') {
-        alert('처리중 에러')
-      }
-    }
+    //     document.querySelector('#content').value = '';
+
+    //   } else if (result.retCode == 'NG') {
+    //     alert('처리중 에러')
+    //   }
+    // } // end of onload.
 
   }
 </script>
